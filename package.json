@@ -1,0 +1,38 @@
+{
+  "name": "lib-nodejs",
+  "version": "1.0.0",
+  "description": "Beginer-nodejs",
+  "keywords": [
+    "nodejs"
+  ],
+  "homepage": "https://github.com/TatQuan/LearnNodeJs#readme",
+  "bugs": {
+    "url": "https://github.com/TatQuan/LearnNodeJs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TatQuan/LearnNodeJs.git"
+  },
+  "license": "ISC",
+  "author": "TatQuan",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mssql": "^12.2.0",
+    "multer": "^2.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

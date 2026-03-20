@@ -1,0 +1,14 @@
+https://drive.google.com/file/d/19Tz3obQxsJ9yVk_NS1h_JNIxWZDWv1Sd/view
+
+some command github
+
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/yourname/yourrepo.git
+git push -u origin main
+git pull origin main
+
+do not push node_modules file into github, so you need to run npm install to install all the dependencies.
+do not push .env file into github if it have some private token, api, key..., push .env.example instead
