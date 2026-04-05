@@ -1,14 +1,35 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 :root {
-  --accent-color: #8672ff;
-  --base-color: white;
-  --text-color: #2e2b41;
-  --input-color: #f3f0ff;
+  /* ====== Colors ====== */
+
+  /* Brand Colors */
+  --primary-color: #695cfe; /* primary identifying color */
+  --primary-color-light: #f6f5ff; /* use for hover or lightbackground */
+  --accent-color: #8672ff; /* lighter than primary a bit */
+
+  /* Backgrounds */
+  --body-color: #e4e9f7; /* background all pages */
+  --base-color: #ffffff; /* background of cards, containers */
+  --input-color: #f3f0ff; /* background for input fields */
+
+  /* Text & Interaction Colors */
+  --text-color: #2e2b41; /* primary text color (ensure good contrast) */
+  --toggle-color: #dddddd; /* color for toggles, switches */
+  --error-color: #ff4d4f; /* color for errors, warnings */
+
+  /* ====== Transitions ====== */
+
+  --tran-02: all 0.2s ease;
+  --tran-03: all 0.3s ease;
+  --tran-04: all 0.4s ease;
+  --tran-05: all 0.5s ease;
 }
+
 * {
   margin: 0;
   padding: 0;
 }
+
 html {
   font-family:
     Poppins,

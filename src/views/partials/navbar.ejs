@@ -1,0 +1,77 @@
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<nav class="sidebar close">
+    <header>
+        <div class="image-text">
+            <i class='bx bxs-folder icon-user' style='color:rgba(15,36,247,0.56)'></i>
+
+            <div class="text header-text">
+                <span class="name">DMS</span>
+                <span class="user-name">Username</span>
+            </div>
+        </div>
+
+        <i class="bx bx-chevron-right toggle"></i>
+
+    </header>
+
+    <div class="menu-bar">
+        <div class="menu">
+            <ul class="menu-links">
+
+                <!-- ================== Menu Links ================== -->
+                <li class="nav-link">
+                    <a href="#">
+                        <i class="bx bx-home-alt icon-menu"></i>
+                        <span class="text nav-text">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="nav-link">
+                    <a href="/document/upload">
+                        <i class="bx bx-upload icon-menu"></i>
+                        <span class="text nav-text">Upload</span>
+                    </a>
+                </li>
+
+                <!-- ================== Menu Links for admin ================== -->
+
+                <li class="nav-link">
+                    <a href="#">
+                        <i class="bx bxs-user-account icon-menu"></i>
+                        <span class="text nav-text">User Management</span>
+                    </a>
+                </li>
+
+                <li class="nav-link">
+                    <a href="#">
+                        <i class='bx bx-spreadsheet icon-menu'></i>
+                        <span class="text nav-text">Audit Log</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="bottom-content">
+            <li class="">
+                <a href="#">
+                    <i class='bx bx-log-out icon-menu'></i>
+                    <span class="text nav-text">Logout</span>
+                </a>
+            </li>
+        </div>
+    </div>
+</nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const body = document.querySelector('body');
+        const sidebar = body.querySelector('.sidebar');
+        const toggle = body.querySelector(".toggle");
+
+        toggle.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        });
+    });
+
+
+
+</script>

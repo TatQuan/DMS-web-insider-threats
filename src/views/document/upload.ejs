@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Document</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/table.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<body>
+    <%- include('../partials/navbar') %>
+
+        <section class="home">
+            <div class="dash-content">
+                <div class="files-manager">
+                    <div class="title">
+                        <i class='bx bx-folder-open'></i>
+                        <span class="text">Uploaded Files</span>
+                    </div>
+
+                    <div class="files-table-container">
+                        <table class="files-table">
+                            <thead>
+                                <tr>
+                                    <th>File Name</th>
+                                    <th>Type</th>
+                                    <th>Size</th>
+                                    <th>Date Uploaded</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="file-info">
+                                            <i class='bx bxs-file-pdf file-icon pdf'></i>
+                                            <span class="file-name">Báo cáo tài chính Q1.pdf</span>
+                                        </div>
+                                    </td>
+                                    <td>PDF</td>
+                                    <td>2.4 MB</td>
+                                    <td>05/04/2026</td>
+                                    <td><span class="status-tag success">Completed</span></td>
+                                    <td>
+                                        <button class="action-btn"><i class='bx bx-download'></i></button>
+                                        <button class="action-btn delete"><i class='bx bx-trash'></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="file-info">
+                                            <i class='bx bxs-file-image file-icon img'></i>
+                                            <span class="file-name">Thumbnail_Banner.png</span>
+                                        </div>
+                                    </td>
+                                    <td>Image</td>
+                                    <td>850 KB</td>
+                                    <td>04/04/2026</td>
+                                    <td><span class="status-tag warning">Pending</span></td>
+                                    <td>
+                                        <button class="action-btn"><i class='bx bx-download'></i></button>
+                                        <button class="action-btn delete"><i class='bx bx-trash'></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+</body>
+
+</html>

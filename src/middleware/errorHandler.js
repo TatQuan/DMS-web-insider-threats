@@ -12,7 +12,7 @@ const globalErrorHandler = async (err, req, res, next) => {
 
   const browserInfo = req.headers["user-agent"] || "Unknown Browser";
 
-  if (err.actionType === "UNAUTHORIZED_ACCESS") {
+  if (err.isOperational) {
     try {
       await auditService.logAction(
         userId,

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Log</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/table.css">
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container">
+        <h1>System Audit Log</h1>
+        <table class="table-container">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Details</th>
+                    <th>IP Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (typeof logs !== 'undefined' && logs.length > 0) { %>
+                    <% logs.forEach(function(log) { %>
+                        <tr>
+                            <td><%= new Date(log.timestamp).toLocaleString() %></td>
+                            <td><%= log.username %></td>
+                            <td><%= log.action %></td>
+                            <td><%= log.details %></td>
+                            <td><%= log.ip_address %></td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="5">No audit logs found.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

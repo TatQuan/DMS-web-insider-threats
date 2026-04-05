@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/table.css">
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container">
+        <h1>User Management</h1>
+        <table class="table-container">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Is Locked</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (typeof users !== 'undefined' && users.length > 0) { %>
+                    <% users.forEach(function(user) { %>
+                        <tr>
+                            <td><%= user.user_id %></td>
+                            <td><%= user.username %></td>
+                            <td><%= user.email %></td>
+                            <td><%= user.is_locked ? 'Yes' : 'No' %></td>
+                            <td>
+                                <form action="/admin/users/<%= user.user_id %>/toggle-lock" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn"><%= user.is_locked ? 'Unlock' : 'Lock' %></button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="5">No users found.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

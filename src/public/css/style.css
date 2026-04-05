@@ -111,11 +111,11 @@ a:hover {
   }
 }
 form div.incorrect label {
-  background-color: #f06272;
+  background-color: var(--error-color);
 }
 form div.incorrect input {
-  border-color: #f06272;
+  border-color: var(--error-color);
 }
 #error-message {
-  color: #f06272;
+  color: var(--error-color);
 }

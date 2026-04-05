@@ -1,0 +1,114 @@
+/* --- Layout chính --- */
+.home {
+  position: absolute;
+  top: 0;
+  left: 250px; /* Khớp với chiều rộng Sidebar */
+  height: 100vh;
+  width: calc(100% - 250px);
+  background-color: var(--body-color);
+  transition: var(--tran-05);
+  padding: 20px;
+}
+
+/* Khi Sidebar đóng, nội dung tràn ra */
+.sidebar.close ~ .home {
+  left: 88px; /* Khớp với chiều rộng Sidebar.close */
+  width: calc(100% - 88px);
+}
+
+.home .dash-content {
+  padding-top: 20px;
+}
+
+/* --- Tiêu đề các mục --- */
+.dash-content .title {
+  display: flex;
+  align-items: center;
+  margin: 30px 0 20px 0;
+}
+
+.dash-content .title i {
+  height: 35px;
+  width: 35px;
+  background-color: var(--primary-color);
+  border-radius: 6px;
+  color: var(--base-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.dash-content .title .text {
+  font-size: 24px;
+  font-weight: 600;
+  margin-left: 15px;
+}
+
+/* --- Thẻ Overview (Cards) --- */
+.dash-content .boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.dash-content .boxes .box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 12px;
+  padding: 20px;
+  background-color: var(--base-color);
+  transition: var(--tran-03);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.dash-content .boxes .box:hover {
+  transform: translateY(-5px);
+}
+
+.boxes .box i {
+  font-size: 35px;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.boxes .box .text {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.boxes .box .number {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+/* --- Bảng Activity --- */
+.activity-data {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  background-color: var(--base-color);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.activity-data .data {
+  display: flex;
+  flex-direction: column;
+}
+
+.data .data-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.data .data-list {
+  font-size: 15px;
+  font-weight: 400;
+  margin-top: 15px;
+  white-space: nowrap;
+}

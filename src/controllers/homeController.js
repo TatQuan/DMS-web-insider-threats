@@ -1,11 +1,5 @@
-const { getAllUsers } = require("../services/crudUser.js");
-
-const getHomePage = async (req, res) => {
-  let users = await getAllUsers();
-
-  res.render("home.ejs", { users });
+const getHomePage = (req, res) => {
+  res.render("home.ejs");
 };
 
-module.exports = {
-  getHomePage: getHomePage,
-};
+module.exports = { getHomePage };

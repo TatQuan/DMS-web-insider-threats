@@ -1,12 +1,89 @@
-.table-container {
-  width: 80%;
-  border-collapse: collapse;
-  margin: 20px auto;
+.files-table-container {
+  background-color: var(--base-color);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
 }
 
-.table-container th,
-.table-container td {
-  border: 1px solid #ddd;
-  padding: 8px;
+.files-table {
+  width: 100%;
+  border-collapse: collapse;
   text-align: left;
+}
+
+.files-table th {
+  padding: 12px 15px;
+  border-bottom: 2px solid var(--body-color);
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 15px;
+}
+
+.files-table td {
+  padding: 15px;
+  border-bottom: 1px solid var(--body-color);
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+/* --- File Icon & Info --- */
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.file-icon {
+  font-size: 24px;
+}
+.file-icon.pdf {
+  color: #e74c3c;
+}
+.file-icon.img {
+  color: #3498db;
+}
+
+.file-name {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+/* --- Status Tags --- */
+.status-tag {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.status-tag.success {
+  background-color: #e6fffa;
+  color: #38b2ac;
+}
+.status-tag.warning {
+  background-color: #fffaf0;
+  color: #dd6b20;
+}
+
+/* --- Action Buttons --- */
+.action-btn {
+  border: none;
+  background: var(--primary-color-light);
+  color: var(--primary-color);
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--tran-02);
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+.action-btn:hover {
+  background: var(--primary-color);
+  color: var(--base-color);
+}
+
+.action-btn.delete:hover {
+  background: var(--error-color);
+  color: white;
 }

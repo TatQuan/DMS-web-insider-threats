@@ -5,12 +5,14 @@ const path = require("path");
 
 const rateLimit = require("express-rate-limit");
 const configViewEngine = require("./config/viewEngine.js");
-const authRoutes = require("./routes/authRoutes.js");
-const documentRoutes = require("./routes/documentRoutes.js");
+
+// Route imports
+const authRoute = require("./routes/authRoutes.js");
+const homeRoute = require("./routes/homeRoutes.js");
+const documentRoute = require("./routes/documentRoutes.js");
+
 const globalErrorHandler = require("./middleware/errorHandler.js");
 const corsConfig = require("./config/corsConfig.js");
-
-// const webRouter = require("./routes/web.js");
 
 const app = express();
 const port = process.env.PORT || 8888; // hard code port
@@ -33,10 +35,10 @@ app.use(express.urlencoded({ extended: true })); // for read and get form data
 // config template (view) engine
 configViewEngine(app);
 
-// init web route
-// app.use("/", webRouter);
-app.use("/auth/login", authRoutes); // route for auth (login)
-app.use("/documents", documentRoutes); // route for document (view document list)
+// --- Route Initialization ---
+app.use("/auth", authRoute);
+app.use("/", homeRoute);
+app.use("/document", documentRoute);
 
 // Global Error Handler
 app.use(globalErrorHandler);

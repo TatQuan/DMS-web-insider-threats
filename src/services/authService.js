@@ -5,32 +5,34 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 const auditService = require("./auditService");
 
-const loginUser = async (username, password, ipInfo, browserInfo) => {
-  const user = await userModel.findByUsername(username);
+const loginUser = async (email, password, ipInfo, browserInfo) => {
+  const user = await userModel.findByUsername(email);
+
+  console.log(user);
 
   if (!user) {
     await auditService.logAction(
       null,
-      "LOGIN_FAILED",
-      username,
+      "LOGIN",
+      email,
       "Failed",
       ipInfo,
       browserInfo,
     );
-    throw new Error("User not found!");
+    throw new Error("Invalid email or password");
   }
 
   const isMatch = await bcrypt.compare(password, user.PasswordHash);
   if (!isMatch) {
     await auditService.logAction(
       user.Id,
-      "LOGIN_FAILED",
+      "LOGIN",
       "Wrong Password",
       "Failed",
       ipInfo,
       browserInfo,
     );
-    throw new Error("Wrong password");
+    throw new Error("Invalid email or password");
   }
 
   if (user.IsLocked) {
@@ -50,16 +52,25 @@ const loginUser = async (username, password, ipInfo, browserInfo) => {
     }
   }
 
-  // 4. Tạo JWT
+  await auditService.logAction(
+    user.Id,
+    "LOGIN",
+    "Login successful",
+    "Success",
+    ipInfo,
+    browserInfo,
+  );
+
+  // 4. create JWT
   const token = jwt.sign(
-    { id: user.Id, role: user.Role, dept: user.Department },
+    { id: user.Id, email: user.Email, role: user.Role, dept: user.Department },
     process.env.JWT_SECRET,
     { expiresIn: "2h" },
   );
 
   return {
     token,
-    user: { id: user.Id, username: user.Username, role: user.Role },
+    user: { id: user.Id, email: user.Email, role: user.Role },
   };
 };
 

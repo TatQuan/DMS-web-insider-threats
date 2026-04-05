@@ -1,11 +1,11 @@
 const { connectionPool, sql } = require("../config/database");
 
-const findByUsername = async (username) => {
+const findByUsername = async (email) => {
   const pool = await connectionPool;
   const result = await pool
     .request()
-    .input("user", sql.NVarChar, username)
-    .query("SELECT * FROM Users WHERE Username = @user");
+    .input("email", sql.NVarChar, email)
+    .query("SELECT * FROM Users WHERE Email = @email");
   return result.recordset[0];
 };
 
