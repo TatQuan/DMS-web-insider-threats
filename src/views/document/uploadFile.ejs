@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Documents - DMS</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/upload.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body class="preload">
+    <%- include('../partials/navbar') %>
+
+        <section class="background-content">
+            <div class="main-content">
+                <div class="title-wrapper">
+                    <div class="title">
+                        <i class='bx bx-cloud-upload'></i>
+                        <span class="text">Upload New Document</span>
+                    </div>
+                    <a href="/upload" class="temp-upload-btn" style="background-color: var(--text-color);">
+                        <i class='bx bx-arrow-back'></i>
+                        <span>Back to List</span>
+                    </a>
+                </div>
+
+                <div class="upload-card">
+                    <form action="/document/upload" method="POST" enctype="multipart/form-data" id="upload-form">
+                        <div class="drop-zone" id="drop-zone">
+                            <div class="drop-zone-content">
+                                <i class='bx bxs-cloud-upload icon-big'></i>
+                                <h3>Drag & Drop files here</h3>
+                                <p>or <span>Browse files</span> from your computer</p>
+                                <input type="file" name="file" id="file-input" hidden multiple>
+                            </div>
+                            <div id="file-preview-container" class="file-preview-grid"></div>
+                        </div>
+
+                        <div class="upload-options">
+                            <div class="input-group">
+                                <label>Document Category</label>
+                                <select name="category">
+                                    <option value="report">Financial Report</option>
+                                    <option value="contract">Contract</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="action-footer">
+                            <p class="limit-text">Maximum file size: 25MB (PDF, PNG, JPG, DOCX)</p>
+                            <button type="submit" class="temp-upload-btn main-upload">
+                                <i class='bx bx-check-circle'></i>
+                                <span>Confirm & Upload</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <script src="/js/sidebar-logic.js"></script>
+        <script>
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+
+            dropZone.addEventListener('click', () => fileInput.click());
+
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('active');
+            });
+
+            ['dragleave', 'drop'].forEach(event => {
+                dropZone.addEventListener(event, () => dropZone.classList.remove('active'));
+            });
+
+            fileInput.addEventListener('change', function () {
+                const fileName = this.files[0]?.name;
+                if (fileName) {
+                    document.querySelector('.drop-zone h3').innerText = "Selected: " + fileName;
+                }
+            });
+        </script>
+</body>
+
+</html>

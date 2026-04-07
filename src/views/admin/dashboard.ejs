@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Document Dashboard</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/table.css">
+
+
+</head>
+
+<body class="preload">
+    <%- include('../partials/navbar') %>
+
+        <section class="background-content">
+            <div class="main-content">
+                <div class="overview">
+                    <div class="title">
+                        <i class='bx bx-shield-quarter'></i>
+                        <span class="text">Security Intelligence Overview</span>
+                    </div>
+
+                    <div class="boxes">
+                        <div class="box box1">
+                            <i class='bx bx-error-alt'></i>
+                            <span class="text">High Risk Users</span>
+                            <span class="number">12</span>
+                        </div>
+                        <div class="box box2">
+                            <i class='bx bx-pulse'></i>
+                            <span class="text">Avg. Activity Z-Score</span>
+                            <span class="number">0.85</span>
+                        </div>
+                        <div class="box box3">
+                            <i class='bx bx-alarm-exclamation'></i>
+                            <span class="text">Anomalies Detected</span>
+                            <span class="number">4</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="activity">
+                    <div class="title">
+                        <i class='bx bx-user-voice'></i>
+                        <span class="text">User Behavior Analysis (Z-Score)</span>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="table-data">
+                            <thead>
+                                <tr>
+                                    <th>User Identity</th>
+                                    <th>Action Count</th>
+                                    <th>Z-Score (Deviation)</th>
+                                    <th>Threat Level</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="threat-high">
+                                    <td>
+                                        <div class="user-info">
+                                            <span class="name">Nguyen Van A</span>
+                                            <span class="email">a.nguyen@dms.com</span>
+                                        </div>
+                                    </td>
+                                    <td>1,450 <small>(Last 24h)</small></td>
+                                    <td><span class="z-score">3.42</span></td>
+                                    <td><span class="status-tag danger">Critical</span></td>
+                                    <td><button class="action-btn"><i class='bx bx-search-alt'></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-info">
+                                            <span class="name">Tran Thi B</span>
+                                            <span class="email">b.tran@dms.com</span>
+                                        </div>
+                                    </td>
+                                    <td>120 <small>(Last 24h)</small></td>
+                                    <td><span class="z-score">0.12</span></td>
+                                    <td><span class="status-tag success">Normal</span></td>
+                                    <td><button class="action-btn"><i class='bx bx-search-alt'></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+</body>
+
+<script src="/js/preloadTrancision.js" defer></script>
+
+</html>

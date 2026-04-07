@@ -1,4 +1,6 @@
-.files-table-container {
+/* ====================== Table borderless row ======================*/
+
+.table-container {
   background-color: var(--base-color);
   padding: 20px;
   border-radius: 12px;
@@ -6,13 +8,13 @@
   overflow-x: auto;
 }
 
-.files-table {
+.table-data {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
 }
 
-.files-table th {
+.table-data th {
   padding: 12px 15px;
   border-bottom: 2px solid var(--body-color);
   font-weight: 600;
@@ -20,31 +22,31 @@
   font-size: 15px;
 }
 
-.files-table td {
+.table-data td {
   padding: 15px;
   border-bottom: 1px solid var(--body-color);
   vertical-align: middle;
   font-size: 14px;
 }
 
-/* --- File Icon & Info --- */
-.file-info {
+/* --- Table Icon & Info --- */
+.table-info {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.file-icon {
+.table-icon {
   font-size: 24px;
 }
-.file-icon.pdf {
+.table-icon.pdf {
   color: #e74c3c;
 }
-.file-icon.img {
+.table-icon.img {
   color: #3498db;
 }
 
-.file-name {
+.table-name {
   font-weight: 500;
   color: var(--text-color);
 }

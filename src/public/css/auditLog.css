@@ -1,0 +1,151 @@
+/* --- Audit Log Specific Styles --- */
+
+.log-filters {
+  display: flex;
+  gap: 10px;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--body-color);
+  background: var(--base-color);
+  color: var(--text-color);
+  font-family: inherit;
+}
+
+.btn-export {
+  background: var(--base-color);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 8px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--tran-03);
+}
+
+.btn-export:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* --- Table Tuning --- */
+.audit-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.audit-table th {
+  background-color: var(--primary-color-light);
+  padding: 15px;
+  text-align: left;
+  font-size: 13px;
+  color: var(--text-color);
+  border-bottom: 2px solid var(--body-color);
+}
+
+.audit-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid var(--body-color);
+  vertical-align: middle;
+}
+
+/* Cột Chiều rộng */
+.audit-table th:nth-child(1) {
+  width: 15%;
+} /* Time */
+.audit-table th:nth-child(2) {
+  width: 12%;
+} /* UserID */
+.audit-table th:nth-child(3) {
+  width: 33%;
+} /* Action & Resource */
+.audit-table th:nth-child(4) {
+  width: 10%;
+} /* Status */
+.audit-table th:nth-child(5) {
+  width: 30%;
+} /* Network */
+
+/* --- Cell Components --- */
+.time-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.time-cell .date {
+  font-weight: 600;
+  font-size: 13px;
+}
+.time-cell .time {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.user-id-tag {
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--text-color);
+}
+
+.action-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.action-type {
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: var(--primary-color);
+}
+
+.resource-path {
+  font-size: 13px;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.log-status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.log-status.success {
+  background: #dcfce7;
+  color: #15803d;
+}
+.log-status.failed {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.network-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.network-info i {
+  color: var(--primary-color);
+  margin-right: 4px;
+}
+
+.network-info .browser {
+  color: #94a3b8;
+  font-style: italic;
+}

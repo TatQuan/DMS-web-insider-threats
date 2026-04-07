@@ -38,3 +38,76 @@ html {
   font-size: 12pt;
   color: var(--text-color);
 }
+
+body:not(.preload) .background-content,
+body:not(.preload) .background-content * {
+  transition: var(--tran-05);
+}
+
+.background-content {
+  position: absolute;
+  top: 0;
+  left: 280px; /* Khớp với chiều rộng Sidebar */
+  height: 100vh;
+  width: calc(100% - 320px);
+  background-color: var(--body-color);
+  /* transition: var(--tran-05); */
+  padding: 20px;
+}
+
+/* When sidebar exp */
+.sidebar.close ~ .background-content {
+  left: 95px;
+  width: calc(100% - 135px);
+}
+
+.background-content .main-content {
+  padding-top: 20px;
+}
+
+/* --- Title --- */
+.main-content .title {
+  display: flex;
+  align-items: center;
+  margin: 30px 0 20px 0;
+}
+
+.main-content .title i {
+  height: 35px;
+  width: 35px;
+  background-color: var(--primary-color);
+  border-radius: 6px;
+  color: var(--base-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.main-content .title .text {
+  font-size: 24px;
+  font-weight: 600;
+  margin-left: 15px;
+}
+
+/* --- Cards Overview --- */
+.main-content .boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.main-content .boxes .box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 12px;
+  padding: 20px;
+  background-color: var(--base-color);
+  transition: var(--tran-03);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.main-content .boxes .box:hover {
+  transform: translateY(-5px);
+}

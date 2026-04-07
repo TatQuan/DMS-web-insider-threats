@@ -20,14 +20,14 @@
 
                 <!-- ================== Menu Links ================== -->
                 <li class="nav-link">
-                    <a href="#">
+                    <a href="/dashboard">
                         <i class="bx bx-home-alt icon-menu"></i>
                         <span class="text nav-text">Dashboard</span>
                     </a>
                 </li>
 
                 <li class="nav-link">
-                    <a href="/document/upload">
+                    <a href="/upload">
                         <i class="bx bx-upload icon-menu"></i>
                         <span class="text nav-text">Upload</span>
                     </a>
@@ -36,14 +36,14 @@
                 <!-- ================== Menu Links for admin ================== -->
 
                 <li class="nav-link">
-                    <a href="#">
+                    <a href="/users">
                         <i class="bx bxs-user-account icon-menu"></i>
                         <span class="text nav-text">User Management</span>
                     </a>
                 </li>
 
                 <li class="nav-link">
-                    <a href="#">
+                    <a href="/audit-log">
                         <i class='bx bx-spreadsheet icon-menu'></i>
                         <span class="text nav-text">Audit Log</span>
                     </a>
@@ -67,8 +67,27 @@
         const sidebar = body.querySelector('.sidebar');
         const toggle = body.querySelector(".toggle");
 
+        const sidebarStatus = localStorage.getItem("sidebar-status");
+
+        if (sidebarStatus === "close") {
+            sidebar.classList.add("close");
+        } else {
+            sidebar.classList.remove("close");
+        }
+
         toggle.addEventListener("click", () => {
             sidebar.classList.toggle("close");
+
+            if (sidebar.classList.contains("close")) {
+                localStorage.setItem("sidebar-status", "close");
+            } else {
+                localStorage.setItem("sidebar-status", "open");
+            }
+        });
+
+        window.addEventListener("load", () => {
+
+            document.body.classList.remove("preload");
         });
     });
 

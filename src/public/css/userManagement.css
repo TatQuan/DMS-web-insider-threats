@@ -1,0 +1,277 @@
+/* --- Title & Action Bar --- */
+.title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.btn-add-user {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  transition: var(--tran-03);
+}
+
+.btn-add-user:hover {
+  background-color: var(--accent-color);
+  box-shadow: 0 4px 12px rgba(105, 92, 254, 0.3);
+}
+
+/* --- Dashboard Layout Fix --- */
+.background-content {
+  box-sizing: border-box;
+}
+
+.title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+/* --- Form Design --- */
+.user-form-card {
+  background: var(--base-color);
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: none; /* Ẩn mặc định */
+  animation: fadeInDown 0.4s ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--body-color);
+  padding-bottom: 15px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-color);
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--body-color);
+  border-radius: 8px;
+  background: var(--input-color);
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid var(--body-color);
+}
+
+.btn-cancel,
+.btn-save {
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Poppins", sans-serif;
+}
+
+.btn-cancel {
+  background-color: var(--body-color);
+  color: var(--text-color);
+  border: 1px solid #d1d5db;
+}
+
+.btn-cancel:hover {
+  background-color: #d1d5db;
+  color: #000;
+}
+
+.btn-save {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 6px rgba(105, 92, 254, 0.2);
+}
+
+.btn-save:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(105, 92, 254, 0.3);
+}
+
+.btn-save:active {
+  transform: translateY(0);
+}
+
+/* --- Table & Column Alignment --- */
+.table-container {
+  background: var(--base-color);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Khắc phục lỗi lệch cột */
+}
+
+.user-table th {
+  text-align: left;
+  padding: 15px;
+  border-bottom: 2px solid var(--body-color);
+  font-size: 14px;
+  color: #64748b;
+}
+
+.user-table td {
+  padding: 15px;
+  border-bottom: 1px solid var(--body-color);
+  word-wrap: break-word;
+}
+
+/* Chiều rộng cột */
+.user-table th:nth-child(1) {
+  width: 30%;
+} /* User Info */
+.user-table th:nth-child(2) {
+  width: 20%;
+} /* Department */
+.user-table th:nth-child(3) {
+  width: 15%;
+} /* Role */
+.user-table th:nth-child(4) {
+  width: 15%;
+} /* Status */
+.user-table th:nth-child(5) {
+  width: 20%;
+} /* Actions */
+
+/* --- UI Components --- */
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.avatar.secondary {
+  background: #64748b;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.info .name {
+  font-weight: 600;
+  color: var(--text-color);
+}
+.info .email {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.role-badge {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.role-badge.admin {
+  background: #fee2e2;
+  color: #ef4444;
+}
+.role-badge.user {
+  background: #e0f2fe;
+  color: #0ea5e9;
+}
+
+.status-badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.status-badge.active {
+  background: #dcfce7;
+  color: #15803d;
+}
+.status-badge.locked {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #94a3b8;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: var(--tran-02);
+}
+
+.action-btn.edit:hover {
+  color: var(--primary-color);
+}
+.action-btn.lock:hover {
+  color: #f59e0b;
+}
+.action-btn.delete:hover {
+  color: var(--error-color);
+}

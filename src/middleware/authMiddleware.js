@@ -2,8 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
   // take token from header "Authorization"
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1]; // Format: "Bearer <token>"
+  const token = req.cookies.token;
 
   if (!token)
     return res
@@ -13,14 +12,18 @@ const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; // save user info from token to request
+    req.locals.user = decoded; // also save to res.locals for EJS templates
     next(); // allow to go to next middleware or route handler
   } catch (err) {
     res.status(403).json({ message: "Token expired or invalid" });
+    req.locals.user = null;
+    req.user = null;
+    window.location.href = "/auth/login"; // redirect to login page if token is invalid or expired
   }
 };
 
 const isAdmin = (req, res, next) => {
-  // req.user được tạo ra từ middleware verifyToken trước đó
+  // req.user are created by middleware verifyToken before
   if (req.user && req.user.role === "Admin") {
     next();
   } else {

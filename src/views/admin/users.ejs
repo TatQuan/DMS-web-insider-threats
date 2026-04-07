@@ -1,50 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management</title>
+    <title>User Management - DMS</title>
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/table.css">
+    <link rel="stylesheet" href="/css/userManagement.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
-<body>
+
+<body class="preload">
     <%- include('../partials/navbar') %>
 
-    <div class="container">
-        <h1>User Management</h1>
-        <table class="table-container">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Is Locked</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if (typeof users !== 'undefined' && users.length > 0) { %>
-                    <% users.forEach(function(user) { %>
-                        <tr>
-                            <td><%= user.user_id %></td>
-                            <td><%= user.username %></td>
-                            <td><%= user.email %></td>
-                            <td><%= user.is_locked ? 'Yes' : 'No' %></td>
-                            <td>
-                                <form action="/admin/users/<%= user.user_id %>/toggle-lock" method="POST" style="display:inline;">
-                                    <button type="submit" class="btn"><%= user.is_locked ? 'Unlock' : 'Lock' %></button>
-                                </form>
-                            </td>
-                        </tr>
-                    <% }); %>
-                <% } else { %>
-                    <tr>
-                        <td colspan="5">No users found.</td>
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
-    </div>
+        <section class="background-content">
+            <div class="main-content">
+                <div class="title-wrapper">
+                    <div class="title">
+                        <i class='bx bxs-group'></i>
+                        <span class="text">User Administration</span>
+                    </div>
+                    <button class="btn-add-user" onclick="toggleUserForm()">
+                        <i class='bx bx-plus'></i>
+                        <span>Create User</span>
+                    </button>
+                </div>
+
+                <div class="user-form-card" id="user-form-card" style="display: none;">
+                    <div class="form-header">
+                        <h3>User Account Details</h3>
+                        <i class='bx bx-x close-form'></i>
+                    </div>
+                    <form>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label>Full Name</label>
+                                <input type="text" placeholder="Full Name">
+                            </div>
+                            <div class="input-group">
+                                <label>Email Address</label>
+                                <input type="email" placeholder="email@dms.com">
+                            </div>
+                            <div class="input-group">
+                                <label>Department</label>
+                                <input type="text" placeholder="e.g. Finance, IT">
+                            </div>
+                            <div class="input-group">
+                                <label>System Role</label>
+                                <select>
+                                    <option value="Admin">Administrator</option>
+                                    <option value="User">Standard User</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>Initial Password</label>
+                                <input type="password" placeholder="••••••••">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-cancel">Cancel</button>
+                            <button type="submit" class="btn-save">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-container">
+                    <table class="user-table">
+                        <thead>
+                            <tr>
+                                <th>User Identity</th>
+                                <th>Department</th>
+                                <th>Role</th>
+                                <th>Access Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="avatar">JD</div>
+                                        <div class="info">
+                                            <span class="name">John Doe</span>
+                                            <span class="email">john@dms.com</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="dept-text">Information Technology</span></td>
+                                <td><span class="role-badge admin">Admin</span></td>
+                                <td><span class="status-badge active">Unlocks</span></td>
+                                <td class="actions">
+                                    <button class="action-btn edit"><i class='bx bx-edit-alt'></i></button>
+                                    <button class="action-btn lock"><i class='bx bx-lock-open-alt'></i></button>
+                                    <button class="action-btn delete"><i class='bx bx-trash'></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="avatar secondary">AS</div>
+                                        <div class="info">
+                                            <span class="name">Anna Smith</span>
+                                            <span class="email">anna@dms.com</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="dept-text">Human Resources</span></td>
+                                <td><span class="role-badge user">User</span></td>
+                                <td><span class="status-badge locked">Locked</span></td>
+                                <td class="actions">
+                                    <button class="action-btn edit"><i class='bx bx-edit-alt'></i></button>
+                                    <button class="action-btn lock"><i class='bx bx-lock-alt'></i></button>
+                                    <button class="action-btn delete"><i class='bx bx-trash'></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <!-- <script src="/js/sidebar-logic.js"></script> -->
+        <script>
+            function toggleUserForm() {
+                const form = document.getElementById('user-form-card');
+                if (form.style.display === "none" || form.style.display === "") {
+                    form.style.display = "block";
+                } else {
+                    form.style.display = "none";
+                }
+            }
+
+            // Đóng form khi bấm nút X hoặc nút Cancel
+            document.querySelectorAll('.close-form, .btn-cancel').forEach(btn => {
+                btn.addEventListener('click', toggleUserForm);
+            });
+        </script>
 </body>
+
 </html>

@@ -8,23 +8,35 @@
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/table.css">
-    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/upload.css">
 
 </head>
 
-<body>
+<body class="preload">
     <%- include('../partials/navbar') %>
 
-        <section class="home">
-            <div class="dash-content">
+        <section class="background-content">
+            <div class="main-content">
                 <div class="files-manager">
-                    <div class="title">
-                        <i class='bx bx-folder-open'></i>
-                        <span class="text">Uploaded Files</span>
+
+                    <div class="title-wrapper">
+                        <div class="title">
+                            <i class='bx bx-folder-open'></i>
+                            <span class="text">Uploaded Files</span>
+                        </div>
+
+                        <div class="upload-btn-wrapper">
+                            <input type="file" id="temp-file-input" hidden>
+                            <button class="temp-upload-btn" onclick="window.location.href='/upload/upload-file'">
+
+                                <i class='bx bx-plus'></i>
+                                <span>Upload File</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="files-table-container">
-                        <table class="files-table">
+                    <div class="table-container">
+                        <table class="table-data">
                             <thead>
                                 <tr>
                                     <th>File Name</th>
@@ -38,9 +50,9 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <div class="file-info">
-                                            <i class='bx bxs-file-pdf file-icon pdf'></i>
-                                            <span class="file-name">Báo cáo tài chính Q1.pdf</span>
+                                        <div class="table-info">
+                                            <i class='bx bxs-file-pdf table-icon pdf'></i>
+                                            <span class="table-name">Báo cáo tài chính Q1.pdf</span>
                                         </div>
                                     </td>
                                     <td>PDF</td>
@@ -54,9 +66,9 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div class="file-info">
-                                            <i class='bx bxs-file-image file-icon img'></i>
-                                            <span class="file-name">Thumbnail_Banner.png</span>
+                                        <div class="table-info">
+                                            <i class='bx bxs-file-image table-icon img'></i>
+                                            <span class="table-name">Thumbnail_Banner.png</span>
                                         </div>
                                     </td>
                                     <td>Image</td>

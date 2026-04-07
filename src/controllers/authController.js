@@ -1,11 +1,11 @@
 const authService = require("../services/authService.js");
 const ipHelper = require("../utils/ipHelper.js");
 
-const getLoginPage = (req, res) => {
+const loginGet = (req, res) => {
   res.render("login.ejs");
 };
 
-const login = async (req, res) => {
+const loginPost = async (req, res) => {
   try {
     const { email, password } = req.body;
     const rawIp =
@@ -22,7 +22,19 @@ const login = async (req, res) => {
     );
 
     // return token and user info for React/Postman
-    res.json(result);
+    res.cookie("token", result.token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+
+    //for React/Postman, return token and user info in JSON response
+    res.json({
+      message: "Login successful",
+      token: result.token,
+      user: result.user,
+    });
   } catch (err) {
     // take care error, return message for React/Postman
     const status = err.statusCode || 401;
@@ -33,4 +45,4 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { getLoginPage, login };
+module.exports = { loginGet, loginPost };

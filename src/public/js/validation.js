@@ -42,7 +42,7 @@ form.addEventListener("submit", async (e) => {
 
     if (response.ok && data.token) {
       localStorage.setItem("token", data.token);
-      window.location.href = "/";
+      window.location.href = "/dashboard";
     } else {
       alert(data.message || "Login failed");
     }

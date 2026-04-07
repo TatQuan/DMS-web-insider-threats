@@ -2,4 +2,8 @@ const getDocuments = (req, res) => {
   res.render("./document/upload.ejs");
 };
 
-module.exports = { getDocuments };
+const uploadDocument = (req, res) => {
+  res.render("./document/uploadFile.ejs");
+};
+
+module.exports = { getDocuments, uploadDocument };
