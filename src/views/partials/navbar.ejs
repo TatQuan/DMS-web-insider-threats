@@ -6,7 +6,10 @@
 
             <div class="text header-text">
                 <span class="name">DMS</span>
-                <span class="user-name">Username</span>
+
+                <span class="user-name">
+                    <%= user ? user.email : 'Anonymous' %>
+                </span>
             </div>
         </div>
 
@@ -19,40 +22,44 @@
             <ul class="menu-links">
 
                 <!-- ================== Menu Links ================== -->
-                <li class="nav-link">
-                    <a href="/dashboard">
-                        <i class="bx bx-home-alt icon-menu"></i>
-                        <span class="text nav-text">Dashboard</span>
-                    </a>
-                </li>
+                <% if (user && user.role==='Admin' ) { %>
+                    <li class="nav-link">
+                        <a href="/dashboard">
+                            <i class="bx bx-home-alt icon-menu"></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <% } %>
 
-                <li class="nav-link">
-                    <a href="/upload">
-                        <i class="bx bx-upload icon-menu"></i>
-                        <span class="text nav-text">Upload</span>
-                    </a>
-                </li>
+                        <li class="nav-link">
+                            <a href="/documents">
+                                <i class="bx bx-upload icon-menu"></i>
+                                <span class="text nav-text">Upload</span>
+                            </a>
+                        </li>
 
-                <!-- ================== Menu Links for admin ================== -->
+                        <!-- ================== Menu Links for admin ================== -->
 
-                <li class="nav-link">
-                    <a href="/users">
-                        <i class="bx bxs-user-account icon-menu"></i>
-                        <span class="text nav-text">User Management</span>
-                    </a>
-                </li>
+                        <% if (user && user.role==='Admin' ) { %>
+                            <li class="nav-link">
+                                <a href="/users">
+                                    <i class="bx bxs-user-account icon-menu"></i>
+                                    <span class="text nav-text">User Management</span>
+                                </a>
+                            </li>
 
-                <li class="nav-link">
-                    <a href="/audit-log">
-                        <i class='bx bx-spreadsheet icon-menu'></i>
-                        <span class="text nav-text">Audit Log</span>
-                    </a>
-                </li>
+                            <li class="nav-link">
+                                <a href="/audit-log">
+                                    <i class='bx bx-spreadsheet icon-menu'></i>
+                                    <span class="text nav-text">Audit Log</span>
+                                </a>
+                            </li>
+                            <% } %>
             </ul>
         </div>
         <div class="bottom-content">
             <li class="">
-                <a href="#">
+                <a href="/auth/logout">
                     <i class='bx bx-log-out icon-menu'></i>
                     <span class="text nav-text">Logout</span>
                 </a>

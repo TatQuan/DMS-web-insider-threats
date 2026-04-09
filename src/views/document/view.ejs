@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Document</title>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/table.css">
+    <link rel="stylesheet" href="/css/upload.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+<body class="preload">
+    <%- include('../partials/navbar') %>
+
+        <section class="background-content">
+            <div class="main-content">
+                <div class="files-manager">
+
+                    <div class="title-wrapper">
+                        <div class="title">
+                            <i class='bx bx-folder-open'></i>
+                            <span class="text">Uploaded Files</span>
+                        </div>
+
+                        <div class="upload-btn-wrapper">
+                            <input type="file" id="temp-file-input" hidden>
+                            <button class="temp-upload-btn" onclick="window.location.href='/documents/upload-file'">
+
+                                <i class='bx bx-plus'></i>
+                                <span>Upload File</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="table-data">
+                            <thead>
+                                <tr>
+                                    <th>File Name</th>
+                                    <!-- <th>Type</th> -->
+                                    <th>Size</th>
+                                    <th>Date Uploaded</th>
+                                    <th>Department</th>
+                                    <th>Uploaded By</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% documents.forEach(doc=> { %>
+                                    <tr>
+                                        <td>
+                                            <div class="table-info">
+                                                <!-- <i class='bx bxs-file-pdf table-icon pdf'></i> -->
+                                                <span class="table-name">
+                                                    <%= doc.FileName %>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <!-- <td>PDF</td> -->
+                                        <td>
+                                            <% let sizeInMB=(doc.FileSize / (1024)).toFixed(2); %>
+                                                <%= sizeInMB %> KB
+                                        </td>
+                                        <td>
+                                            <%= moment(doc.CreatedAt).format('DD/MM/YYYY HH:mm:ss') %>
+                                        </td>
+                                        <td>
+                                            <%= doc.UserDepartment %>
+                                        </td>
+                                        <td>
+                                            <%= doc.OwnerName %>
+                                        </td>
+                                        <td>
+                                            <button class="action-btn" type="button"
+                                                onclick="window.location.href='/documents/download/<%= doc.DocumentId %>'"><i
+                                                    class='bx bx-download'></i></button>
+                                            <button class="action-btn delete"
+                                                onclick="handleDelete('<%= doc.DocumentId %>', '<%= doc.FileName %>')"><i
+                                                    class='bx bx-trash'></i></button>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+</body>
+<script>
+    function handleDelete(docId, fileName) {
+        Swal.fire({
+            title: 'Confirm delete file?',
+            text: `You are about to delete the file: ${fileName}`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `/documents/delete/${docId}`;
+            }
+        })
+    }
+</script>
+
+</html>

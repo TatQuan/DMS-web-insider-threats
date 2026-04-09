@@ -2,20 +2,26 @@ const documentModel = require("../models/documentModel");
 const AppError = require("../utils/appError");
 const path = require("path");
 
-const listDocuments = async (userId, userRole, userDept) => {
-  return await documentModel.findAll(userRole, userDept);
+// ==================== View List Documents ====================
+const viewDocumentService = async (userRole, userDept) => {
+  return await documentModel.selectDocQuery(userRole, userDept);
 };
 
-const uploadNewDocument = async (fileData, userId, department) => {
+// ==================== Upload Document ====================
+const uploadDocumentService = async (fileData, userId, department) => {
+  console.log("Service - File Data:", fileData);
+  console.log("Service - User ID:", userId);
+  console.log("Service - Department:", department);
   try {
-    return await documentModel.insert(fileData, userId, department);
+    return await documentModel.insertDocQuery(fileData, userId, department);
   } catch (err) {
     throw new AppError("Could not upload document", 500);
   }
 };
 
-const getDownloadInfo = async (docId, user) => {
-  const document = await documentModel.findById(docId);
+// ==================== Download Document ====================
+const downloadDocumentService = async (docId, user) => {
+  const document = await documentModel.selectDocByIdQuery(docId);
 
   if (!document) {
     throw new AppError("Document not found", 404);
@@ -36,11 +42,15 @@ const getDownloadInfo = async (docId, user) => {
   };
 };
 
-const deleteDocument = async (docId, user) => {
-  const document = await documentModel.findById(docId);
+// ==================== Soft Delete Document ====================
+const deleteDocumentService = async (docId, user) => {
+  const document = await documentModel.selectDocByIdQuery(docId);
   if (!document) throw new AppError("Document not found", 404);
 
-  // Kiểm tra quyền: Admin HOẶC Chủ sở hữu (OwnerId)
+  console.log("Delete Service - Document:", document);
+  console.log("Delete Service - DocID:", docId);
+  console.log("Delete Service - User:", user);
+
   const isOwner = document.OwnerId === user.id;
   const isAdmin = user.role === "Admin";
 
@@ -48,12 +58,12 @@ const deleteDocument = async (docId, user) => {
     throw new AppError("Unauthorized to delete this document", 403);
   }
 
-  return await documentModel.softDelete(docId);
+  return await documentModel.softDeleteQuery(docId);
 };
 
 module.exports = {
-  listDocuments,
-  uploadNewDocument,
-  getDownloadInfo,
-  deleteDocument,
+  viewDocumentService,
+  uploadDocumentService,
+  downloadDocumentService,
+  deleteDocumentService,
 };

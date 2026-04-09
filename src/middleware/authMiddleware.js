@@ -12,13 +12,13 @@ const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; // save user info from token to request
-    req.locals.user = decoded; // also save to res.locals for EJS templates
+    res.locals.user = decoded; // also save to res.locals for EJS templates
     next(); // allow to go to next middleware or route handler
   } catch (err) {
     res.status(403).json({ message: "Token expired or invalid" });
-    req.locals.user = null;
+    res.locals.user = null;
     req.user = null;
-    window.location.href = "/auth/login"; // redirect to login page if token is invalid or expired
+    return res.status(401).redirect("/auth/login"); // redirect to login page if token is invalid or expired
   }
 };
 

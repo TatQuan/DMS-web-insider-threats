@@ -6,7 +6,7 @@ const userModel = require("../models/userModel");
 const auditService = require("./auditService");
 
 const loginUser = async (email, password, ipInfo, browserInfo) => {
-  const user = await userModel.findByUsername(email);
+  const user = await userModel.selectUserByEmailQuery(email);
 
   console.log(user);
 
@@ -40,7 +40,7 @@ const loginUser = async (email, password, ipInfo, browserInfo) => {
     const lockUntil = new Date(user.LockedUntil);
 
     if (now > lockUntil) {
-      await userModel.unlockUser(user.Id);
+      await userModel.unlockUserQuery(user.Id);
     } else {
       const minutesLeft = Math.ceil((lockUntil - now) / 60000);
       const lockError = new Error(

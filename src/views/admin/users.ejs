@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/userManagement.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="preload">
@@ -29,38 +30,42 @@
 
                 <div class="user-form-card" id="user-form-card" style="display: none;">
                     <div class="form-header">
-                        <h3>User Account Details</h3>
+                        <h3 id="form-title">User Account Details</h3>
                         <i class='bx bx-x close-form'></i>
                     </div>
-                    <form>
+                    <form id="user-main-form" method="POST" action="/admin/users/create">
+                        <input type="hidden" id="user-id" name="id">
                         <div class="form-grid">
                             <div class="input-group">
                                 <label>Full Name</label>
-                                <input type="text" placeholder="Full Name">
+                                <input type="text" name="fullName" id="f-name" placeholder="e.g., John Doe" required>
                             </div>
                             <div class="input-group">
                                 <label>Email Address</label>
-                                <input type="email" placeholder="email@dms.com">
+                                <input type="email" name="email" id="f-email" placeholder="e.g., user@example.com"
+                                    required>
                             </div>
                             <div class="input-group">
                                 <label>Department</label>
-                                <input type="text" placeholder="e.g. Finance, IT">
+                                <input type="text" name="department" id="f-dept" placeholder="e.g., HR, Finance, IT"
+                                    required>
                             </div>
                             <div class="input-group">
                                 <label>System Role</label>
-                                <select>
-                                    <option value="Admin">Administrator</option>
-                                    <option value="User">Standard User</option>
+                                <select name="role" id="f-role">
+                                    <option value="Employee">Employee</option>
+                                    <option value="Staff">Staff</option>
+                                    <option value="Admin">Admin</option>
                                 </select>
                             </div>
-                            <div class="input-group">
-                                <label>Initial Password</label>
-                                <input type="password" placeholder="••••••••">
+                            <div class="input-group" id="password-group">
+                                <label>Password</label>
+                                <input type="password" name="password" id="f-password" placeholder="••••••••">
                             </div>
                         </div>
                         <div class="form-actions">
                             <button type="button" class="btn-cancel">Cancel</button>
-                            <button type="submit" class="btn-save">Save Changes</button>
+                            <button type="submit" class="btn-save" id="btn-submit">Create User</button>
                         </div>
                     </form>
                 </div>
@@ -77,65 +82,50 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="user-cell">
-                                        <div class="avatar">JD</div>
-                                        <div class="info">
-                                            <span class="name">John Doe</span>
-                                            <span class="email">john@dms.com</span>
+                            <% users.forEach(user=> { %>
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="avatar">
+                                                <%= user.FullName.split(' ').map(n => n[0]).join('') %></div>
+                                            <div class="info">
+                                                <span class="name"><%= user.FullName %></span>
+                                                <span class="email"><%= user.Email %></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td><span class="dept-text">Information Technology</span></td>
-                                <td><span class="role-badge admin">Admin</span></td>
-                                <td><span class="status-badge active">Unlocks</span></td>
-                                <td class="actions">
-                                    <button class="action-btn edit"><i class='bx bx-edit-alt'></i></button>
-                                    <button class="action-btn lock"><i class='bx bx-lock-open-alt'></i></button>
-                                    <button class="action-btn delete"><i class='bx bx-trash'></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user-cell">
-                                        <div class="avatar secondary">AS</div>
-                                        <div class="info">
-                                            <span class="name">Anna Smith</span>
-                                            <span class="email">anna@dms.com</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><span class="dept-text">Human Resources</span></td>
-                                <td><span class="role-badge user">User</span></td>
-                                <td><span class="status-badge locked">Locked</span></td>
-                                <td class="actions">
-                                    <button class="action-btn edit"><i class='bx bx-edit-alt'></i></button>
-                                    <button class="action-btn lock"><i class='bx bx-lock-alt'></i></button>
-                                    <button class="action-btn delete"><i class='bx bx-trash'></i></button>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td><span class="dept-text"><%= user.Department %></span></td>
+                                    <td><span class="role-badge <%= user.Role === ' Admin' ? 'admin' : 'user' %>"><%=
+                                                        user.Role %></span>
+                                    </td>
+                                    <td><span class="status-badge <%= user.IsLocked ? 'locked' : 'active' %>">
+                                            <%= user.IsLocked ? 'Locked' : 'Unlocks' %>
+                                        </span></td>
+                                    <td class="actions">
+                                        <button class="action-btn" title="Edit User"
+                                            onclick='openEditForm(<%-JSON.stringify(user) %>)'><i
+                                                class='bx bx-edit-alt'></i></button>
+                                        <% if (user.IsLocked) { %>
+                                            <button class="action-btn unlock" title="Unlock User"><i
+                                                    class='bx bx-unlock'></i></button>
+                                            <% } else { %>
+                                                <button class="action-btn lock" title="Lock User"><i
+                                                        class='bx bx-lock'></i></button>
+                                                <% } %>
+                                                    <button class="action-btn delete" title="Delete User"
+                                                        onclick="deleteUser('<%= user.Id %>', '<%= user.FullName %>')"><i
+                                                            class='bx bx-trash'></i></button>
+                                    </td>
+                                </tr>
+                                <% }) %>
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
         <!-- <script src="/js/sidebar-logic.js"></script> -->
-        <script>
-            function toggleUserForm() {
-                const form = document.getElementById('user-form-card');
-                if (form.style.display === "none" || form.style.display === "") {
-                    form.style.display = "block";
-                } else {
-                    form.style.display = "none";
-                }
-            }
-
-            // Đóng form khi bấm nút X hoặc nút Cancel
-            document.querySelectorAll('.close-form, .btn-cancel').forEach(btn => {
-                btn.addEventListener('click', toggleUserForm);
-            });
-        </script>
+        <script src="/js/userScript.js"></script>
+        <script src="/js/preloadTrancision.js" defer></script>
 </body>
 
 </html>

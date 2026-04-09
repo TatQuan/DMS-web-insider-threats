@@ -3,6 +3,8 @@ require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 const rateLimit = require("express-rate-limit");
 const configViewEngine = require("./config/viewEngine.js");
@@ -28,6 +30,15 @@ const loginLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+app.use(
+  session({
+    secret: "secret_key",
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
+app.use(flash());
+
 app.use(cookieParser()); // for read cookie
 
 // config cors
@@ -41,9 +52,15 @@ app.use(express.urlencoded({ extended: true })); // for read and get form data
 configViewEngine(app);
 
 // --- Route Initialization ---
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  next();
+});
+
 app.use("/auth", authRoute);
 app.use("/dashboard", dashboardRoute);
-app.use("/upload", documentRoute);
+app.use("/documents", documentRoute);
 app.use("/users", userRoute);
 app.use("/audit-log", auditRoute);
 

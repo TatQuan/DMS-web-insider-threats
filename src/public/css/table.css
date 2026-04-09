@@ -43,6 +43,10 @@
   color: #e74c3c;
 }
 .table-icon.img {
+  color: #2ecc71;
+}
+
+.table-icon.doc {
   color: #3498db;
 }
 
