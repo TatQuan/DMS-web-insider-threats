@@ -7,7 +7,7 @@ router.get(
   "/",
   authMiddleware.verifyToken,
   CheckLockStatus,
-  auditController.auditGet,
+  auditController.viewAudit,
 );
 
 module.exports = router;

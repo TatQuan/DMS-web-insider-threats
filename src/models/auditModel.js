@@ -1,7 +1,25 @@
 const { connectionPool, sql } = require("../config/database");
 
-// Ghi log mới
-const createLog = async (userId, action, resource, status, ip, browser) => {
+//============================ View Audit Logs ============================
+const selectAuditLogsQuery = async () => {
+  const pool = await connectionPool;
+  const result = await pool.request().query(`
+        SELECT * FROM AuditLogs a
+        JOIN Users u ON a.UserId = u.Id
+        ORDER BY a.CreatedAt DESC
+    `);
+  return result.recordset;
+};
+
+//============================ Create Audit Log ============================
+const insertAuditLogQuery = async (
+  userId,
+  action,
+  resource,
+  status,
+  ip,
+  browser,
+) => {
   const pool = await connectionPool;
   return await pool
     .request()
@@ -16,7 +34,7 @@ const createLog = async (userId, action, resource, status, ip, browser) => {
 };
 
 // Lấy Z-Score từ Database
-const calculateZScoreFromDB = async (userId) => {
+const calculateZScoreQuery = async (userId) => {
   const pool = await connectionPool;
   const result = await pool.request().input("userId", sql.Int, userId).query(`
         WITH DailyStats AS (
@@ -61,4 +79,9 @@ const fetchViolationsByHour = async (userId) => {
   return result.recordset;
 };
 
-module.exports = { createLog, calculateZScoreFromDB, fetchViolationsByHour };
+module.exports = {
+  selectAuditLogsQuery,
+  calculateZScoreQuery,
+  insertAuditLogQuery,
+  fetchViolationsByHour,
+};

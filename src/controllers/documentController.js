@@ -1,5 +1,6 @@
 const documentService = require("../services/documentService.js");
 const moment = require("moment");
+const ipHelper = require("../utils/ipHelper.js");
 const AppError = require("../utils/appError.js");
 const path = require("path");
 const multer = require("multer");
@@ -7,9 +8,20 @@ const multer = require("multer");
 // ==================== View List Documents ====================
 const viewDocument = async (req, res) => {
   const user = res.locals.user;
+  const path = req.originalUrl;
+
+  const rawIp =
+    req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+  const ipInfo = ipHelper.formatIPv4(rawIp);
+
+  const browserInfo = req.headers["user-agent"] || "Unknown Browser";
+
   const documents = await documentService.viewDocumentService(
     user.role,
     user.dept,
+    path,
+    ipInfo,
+    browserInfo,
   );
 
   res.render("./document/view.ejs", { documents, moment });
@@ -26,9 +38,14 @@ const uploadDocumentPost = async (req, res) => {
       return res.status(400).send("Please select at least one file.");
     }
 
-    console.log("Files received:", req.files);
-
     const user = res.locals.user;
+    const path = req.originalUrl;
+
+    const rawIp =
+      req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    const ipInfo = ipHelper.formatIPv4(rawIp);
+
+    const browserInfo = req.headers["user-agent"] || "Unknown Browser";
 
     const uploadPromises = req.files.map((file) => {
       const fileData = {
@@ -41,6 +58,9 @@ const uploadDocumentPost = async (req, res) => {
         fileData,
         user.id,
         user.dept,
+        path,
+        ipInfo,
+        browserInfo,
       );
     });
 
@@ -59,9 +79,16 @@ const downloadDocument = async (req, res) => {
   try {
     const docId = req.params.id;
     const user = res.locals.user;
+    const path = req.originalUrl;
 
     const { fullPath, originalName } =
-      await documentService.downloadDocumentService(docId, user);
+      await documentService.downloadDocumentService(
+        docId,
+        user,
+        path,
+        ipInfo,
+        browserInfo,
+      );
 
     (res.download(fullPath, originalName),
       (err) => {
@@ -82,11 +109,25 @@ const deleteDocument = async (req, res) => {
   try {
     const docId = req.params.id;
     const user = res.locals.user;
+    const path = req.originalUrl;
 
-    await documentService.deleteDocumentService(docId, user);
+    const rawIp =
+      req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    const ipInfo = ipHelper.formatIPv4(rawIp);
+
+    const browserInfo = req.headers["user-agent"] || "Unknown Browser";
+
+    await documentService.deleteDocumentService(
+      docId,
+      user,
+      path,
+      ipInfo,
+      browserInfo,
+    );
 
     res.redirect("/documents?deleteSuccess=true");
   } catch (err) {
+    console.error("Error deleting document:", err);
     res.status(500).send("An error occurred while deleting the document.");
   }
 };

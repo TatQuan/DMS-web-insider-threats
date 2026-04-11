@@ -1,4 +1,6 @@
 const documentModel = require("../models/documentModel");
+const auditService = require("./auditService");
+const ipHelper = require("../utils/ipHelper");
 const AppError = require("../utils/appError");
 const path = require("path");
 
@@ -8,19 +10,38 @@ const viewDocumentService = async (userRole, userDept) => {
 };
 
 // ==================== Upload Document ====================
-const uploadDocumentService = async (fileData, userId, department) => {
-  console.log("Service - File Data:", fileData);
-  console.log("Service - User ID:", userId);
-  console.log("Service - Department:", department);
+const uploadDocumentService = async (
+  fileData,
+  userId,
+  department,
+  path,
+  ipInfo,
+  browserInfo,
+) => {
   try {
+    await auditService.createLogService(
+      userId,
+      "UPLOAD",
+      path + "/" + fileData.FileName,
+      "Success",
+      ipInfo,
+      browserInfo,
+    );
     return await documentModel.insertDocQuery(fileData, userId, department);
   } catch (err) {
+    console.error("Error in uploadDocumentService:", err.message);
     throw new AppError("Could not upload document", 500);
   }
 };
 
 // ==================== Download Document ====================
-const downloadDocumentService = async (docId, user) => {
+const downloadDocumentService = async (
+  docId,
+  user,
+  path,
+  ipInfo,
+  browserInfo,
+) => {
   const document = await documentModel.selectDocByIdQuery(docId);
 
   if (!document) {
@@ -36,6 +57,15 @@ const downloadDocumentService = async (docId, user) => {
     );
   }
 
+  await auditService.createLogService(
+    user.id,
+    "DOWNLOAD",
+    path + "/" + document.FileName,
+    "Success",
+    ipInfo,
+    browserInfo,
+  );
+
   return {
     fullPath: path.join(__dirname, "../../uploads", document.FilePath),
     originalName: document.FileName,
@@ -43,7 +73,13 @@ const downloadDocumentService = async (docId, user) => {
 };
 
 // ==================== Soft Delete Document ====================
-const deleteDocumentService = async (docId, user) => {
+const deleteDocumentService = async (
+  docId,
+  user,
+  path,
+  ipInfo,
+  browserInfo,
+) => {
   const document = await documentModel.selectDocByIdQuery(docId);
   if (!document) throw new AppError("Document not found", 404);
 
@@ -57,6 +93,15 @@ const deleteDocumentService = async (docId, user) => {
   if (!isOwner && !isAdmin) {
     throw new AppError("Unauthorized to delete this document", 403);
   }
+
+  await auditService.createLogService(
+    user.id,
+    "DELETE",
+    path + "/" + document.FileName,
+    "Success",
+    ipInfo,
+    browserInfo,
+  );
 
   return await documentModel.softDeleteQuery(docId);
 };

@@ -1,10 +1,29 @@
 const auditModel = require("../models/auditModel.js");
+// ==================== View Audit Logs ====================
+const viewAudiLogService = async () => {
+  return await auditModel.selectAuditLogsQuery();
+};
 
-const logAction = async (userId, action, resource, status, ip, browser) => {
+// ==================== Create Log ====================
+const createLogService = async (
+  userId,
+  action,
+  resource,
+  status,
+  ip,
+  browser,
+) => {
   try {
-    await auditModel.createLog(userId, action, resource, status, ip, browser);
+    await auditModel.insertAuditLogQuery(
+      userId,
+      action,
+      resource,
+      status,
+      ip,
+      browser,
+    );
   } catch (err) {
-    console.error("Error in auditService.logAction:", err.message);
+    console.error("Error in auditService.createLogService:", err.message);
   }
 };
 
@@ -29,7 +48,8 @@ const getHourlyViolationChart = async (userId) => {
 };
 
 module.exports = {
-  logAction,
+  viewAudiLogService,
+  createLogService,
   getZScore,
   getHourlyViolationChart,
 };

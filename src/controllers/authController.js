@@ -1,4 +1,5 @@
 const authService = require("../services/authService.js");
+const auditService = require("../services/auditService.js");
 const ipHelper = require("../utils/ipHelper.js");
 
 const loginGet = (req, res) => {
@@ -13,8 +14,10 @@ const loginPost = async (req, res) => {
     const ipInfo = ipHelper.formatIPv4(rawIp);
 
     const browserInfo = req.headers["user-agent"] || "Unknown Browser";
+    const path = req.originalUrl;
 
     const result = await authService.loginUser(
+      path,
       email,
       password,
       ipInfo,
@@ -45,7 +48,25 @@ const loginPost = async (req, res) => {
   }
 };
 
-const logout = (req, res) => {
+// ==================== Logout ====================
+const logout = async (req, res) => {
+  const rawIp =
+    req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+  const ipInfo = ipHelper.formatIPv4(rawIp);
+
+  const browserInfo = req.headers["user-agent"] || "Unknown Browser";
+  const path = req.originalUrl;
+  const userId = res.locals.user;
+
+  await auditService.createLogService(
+    userId,
+    "LOGOUT",
+    path,
+    "Success",
+    ipInfo,
+    browserInfo,
+  );
+
   res.clearCookie("token");
   res.redirect("/auth/login");
 };

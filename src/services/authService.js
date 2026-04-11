@@ -5,16 +5,14 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 const auditService = require("./auditService");
 
-const loginUser = async (email, password, ipInfo, browserInfo) => {
+const loginUser = async (path, email, password, ipInfo, browserInfo) => {
   const user = await userModel.selectUserByEmailQuery(email);
 
-  console.log(user);
-
   if (!user) {
-    await auditService.logAction(
+    await auditService.createLogService(
       null,
       "LOGIN",
-      email,
+      path + ":" + email,
       "Failed",
       ipInfo,
       browserInfo,
@@ -24,10 +22,10 @@ const loginUser = async (email, password, ipInfo, browserInfo) => {
 
   const isMatch = await bcrypt.compare(password, user.PasswordHash);
   if (!isMatch) {
-    await auditService.logAction(
+    await auditService.createLogService(
       user.Id,
       "LOGIN",
-      "Wrong Password",
+      path,
       "Failed",
       ipInfo,
       browserInfo,
@@ -52,10 +50,10 @@ const loginUser = async (email, password, ipInfo, browserInfo) => {
     }
   }
 
-  await auditService.logAction(
+  await auditService.createLogService(
     user.Id,
     "LOGIN",
-    "Login successful",
+    path,
     "Success",
     ipInfo,
     browserInfo,

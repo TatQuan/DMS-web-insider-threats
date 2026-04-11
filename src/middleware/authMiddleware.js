@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const ipHelper = require("../utils/ipHelper.js");
+const auditService = require("../services/auditService.js");
 
 const verifyToken = (req, res, next) => {
   // take token from header "Authorization"
@@ -27,6 +29,21 @@ const isAdmin = (req, res, next) => {
   if (req.user && req.user.role === "Admin") {
     next();
   } else {
+    const rawIp =
+      req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    const ipInfo = ipHelper.formatIPv4(rawIp);
+
+    const browserInfo = req.headers["user-agent"] || "Unknown Browser";
+
+    auditService.createLogService(
+      req.user ? req.user.id : 0,
+      "UNAUTHORIZED_ACCESS",
+      req.originalUrl,
+      "Failed",
+      ipInfo,
+      browserInfo,
+    );
+
     return res
       .status(403)
       .json({ message: "You do not have permission to perform this action" });

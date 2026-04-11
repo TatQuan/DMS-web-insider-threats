@@ -47,50 +47,48 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div class="time-cell">
-                                        <span class="date">2024-05-20</span>
-                                        <span class="time">14:30:05</span>
-                                    </div>
-                                </td>
-                                <td><span class="user-id-tag">#USR-001</span></td>
-                                <td>
-                                    <div class="action-info">
-                                        <span class="action-type">LOGIN</span>
-                                        <span class="resource-path">/auth/login</span>
-                                    </div>
-                                </td>
-                                <td><span class="log-status success">Success</span></td>
-                                <td>
-                                    <div class="network-info">
-                                        <span><i class='bx bx-globe'></i> 192.168.1.1</span>
-                                        <span class="browser"><i class='bx bxl-chrome'></i> Chrome / Windows</span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="time-cell">
-                                        <span class="date">2024-05-20</span>
-                                        <span class="time">15:12:40</span>
-                                    </div>
-                                </td>
-                                <td><span class="user-id-tag">#USR-042</span></td>
-                                <td>
-                                    <div class="action-info">
-                                        <span class="action-type">DELETE</span>
-                                        <span class="resource-path">/docs/contract_v2.pdf</span>
-                                    </div>
-                                </td>
-                                <td><span class="log-status failed">Failed</span></td>
-                                <td>
-                                    <div class="network-info">
-                                        <span><i class='bx bx-globe'></i> 172.16.254.1</span>
-                                        <span class="browser"><i class='bx bxl-firefox'></i> Firefox / MacOS</span>
-                                    </div>
-                                </td>
-                            </tr>
+
+                            <% auditLogs.forEach(log=> { %>
+                                <tr>
+                                    <td>
+                                        <div class="time-cell">
+                                            <span class="date">
+                                                <%= log.CreatedAt.toISOString().split('T')[0] %>
+                                            </span>
+                                            <span class="time">
+                                                <%= log.CreatedAt.toISOString().split('T')[1].split('.')[0] %>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td><span class="user-id-tag">
+                                            <%= log.FullName %>
+                                        </span></td>
+                                    <td>
+                                        <div class="action-info">
+                                            <span class="action-type">
+                                                <%= log.Action %>
+                                            </span>
+                                            <span class="resource-path">
+                                                <%= log.Resource %>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td><span class="log-status <%= log.Status === 'Success' ? 'success' : 'failed' %>">
+                                            <%= log.Status %>
+                                        </span></td>
+                                    <td>
+                                        <div class="network-info">
+                                            <span><i class='bx bx-globe'></i>
+                                                <%= log.IPAddress %>
+                                            </span>
+                                            <span class="browser"><i class='bx bxl-firefox'></i>
+                                                <%= log.BrowserInfo %>
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <% }) %>
+
                         </tbody>
                     </table>
                 </div>
