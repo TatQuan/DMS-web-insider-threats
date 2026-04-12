@@ -28,17 +28,23 @@
                         <div class="box box1">
                             <i class='bx bx-error-alt'></i>
                             <span class="text">High Risk Users</span>
-                            <span class="number">12</span>
+                            <span class="number">
+                                <%= overview.highRiskUsers %>
+                            </span>
                         </div>
                         <div class="box box2">
                             <i class='bx bx-pulse'></i>
                             <span class="text">Avg. Activity Z-Score</span>
-                            <span class="number">0.85</span>
+                            <span class="number">
+                                <%= overview.avgZScore %>
+                            </span>
                         </div>
                         <div class="box box3">
                             <i class='bx bx-alarm-exclamation'></i>
                             <span class="text">Anomalies Detected</span>
-                            <span class="number">4</span>
+                            <span class="number">
+                                <%= overview.anomalies %>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -61,30 +67,36 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="threat-high">
-                                    <td>
-                                        <div class="user-info">
-                                            <span class="name">Nguyen Van A</span>
-                                            <span class="email">a.nguyen@dms.com</span>
-                                        </div>
-                                    </td>
-                                    <td>1,450 <small>(Last 24h)</small></td>
-                                    <td><span class="z-score">3.42</span></td>
-                                    <td><span class="status-tag danger">Critical</span></td>
-                                    <td><button class="action-btn"><i class='bx bx-search-alt'></i></button></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="user-info">
-                                            <span class="name">Tran Thi B</span>
-                                            <span class="email">b.tran@dms.com</span>
-                                        </div>
-                                    </td>
-                                    <td>120 <small>(Last 24h)</small></td>
-                                    <td><span class="z-score">0.12</span></td>
-                                    <td><span class="status-tag success">Normal</span></td>
-                                    <td><button class="action-btn"><i class='bx bx-search-alt'></i></button></td>
-                                </tr>
+                                <% userBehaviors.forEach(user=> { %>
+                                    <tr class="<%= user.ThreatLevel === 'Critical' ? 'threat-high' : '' %>">
+                                        <td>
+                                            <div class="user-info">
+                                                <span class="name">
+                                                    <%= user.FullName %>
+                                                </span>
+                                                <span class="email">
+                                                    <%= user.Email %>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <%= user.ActionCount %> <small>(Last 24h)</small>
+                                        </td>
+                                        <td><span class="z-score">
+                                                <%= user.ZScore %>
+                                            </span></td>
+                                        <td>
+                                            <span class="status-tag <%= user.StatusClass %>">
+                                                <%= user.ThreatLevel %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button class="action-btn" onclick="viewDetails('<%= user.Id %>')">
+                                                <i class='bx bx-search-alt'></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
                             </tbody>
                         </table>
                     </div>

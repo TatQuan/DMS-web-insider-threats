@@ -26,7 +26,9 @@
                             <option value="">All Actions</option>
                             <option value="LOGIN">Login</option>
                             <option value="UPLOAD">Upload</option>
+                            <option value="DOWNLOAD">Download</option>
                             <option value="DELETE">Delete</option>
+
                         </select>
                         <button class="btn-export">
                             <i class='bx bx-download'></i>
@@ -95,5 +97,55 @@
             </div>
         </section>
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterSelect = document.querySelector('.filter-select');
+        const exportBtn = document.querySelector('.btn-export');
+        const tableRows = document.querySelectorAll('.audit-table tbody tr');
+
+        // 1. Chức năng Lọc (Client-side Filter)
+        filterSelect.addEventListener('change', function (e) {
+            const selectedAction = e.target.value.toUpperCase();
+
+            tableRows.forEach(row => {
+                const actionText = row.querySelector('.action-type').textContent.trim().toUpperCase();
+                if (selectedAction === "" || actionText.includes(selectedAction)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+
+        // 2. Chức năng Xuất CSV
+        exportBtn.addEventListener('click', function () {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Timestamp,User,Action,Resource,Status,IPAddress\n";
+
+            tableRows.forEach(row => {
+                if (row.style.display !== "none") {
+                    const rowData = [
+                        row.querySelector('.date').textContent.trim() + " " + row.querySelector('.time').textContent.trim(),
+                        row.querySelector('.user-id-tag').textContent.trim(),
+                        row.querySelector('.action-type').textContent.trim(),
+                        row.querySelector('.resource-path').textContent.trim(),
+                        row.querySelector('.log-status').textContent.trim(),
+                        row.querySelector('.network-info span').textContent.trim()
+                    ].map(item => `"${item}"`).join(",");
+                    csvContent += rowData + "\n";
+                }
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `audit_logs_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    });
+</script>
 
 </html>
