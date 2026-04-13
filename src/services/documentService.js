@@ -38,7 +38,7 @@ const uploadDocumentService = async (
 const downloadDocumentService = async (
   docId,
   user,
-  path,
+  pathUrl,
   ipInfo,
   browserInfo,
 ) => {
@@ -60,14 +60,14 @@ const downloadDocumentService = async (
   await auditService.createLogService(
     user.id,
     "DOWNLOAD",
-    path + "/" + document.FileName,
+    pathUrl + "/" + document.FileName,
     "Success",
     ipInfo,
     browserInfo,
   );
 
   return {
-    fullPath: path.join(__dirname, "../../uploads", document.FilePath),
+    fullPath: path.join(__dirname, "../../", document.FilePath),
     originalName: document.FileName,
   };
 };

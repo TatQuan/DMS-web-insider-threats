@@ -124,3 +124,34 @@ async function deleteUser(userId, fullName) {
     }
   }
 }
+
+async function lockUser(userId) {
+  const result = await Swal.fire({
+    title: "Are you sure?",
+    text: `The account of "${fullName}" will be locked permanently!`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Delete",
+    cancelButtonText: "Cancel",
+  });
+  if (result.isConfirmed) {
+    try {
+      const response = await fetch(`/users/lock/${userId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        Swal.fire("Deleted!", data.message, "success").then(() =>
+          location.reload(),
+        );
+      } else {
+        Swal.fire("Error!", data.message, "error");
+      }
+    } catch {
+      Swal.fire("Error!", "Unable to connect to the server", "error");
+    }
+  }
+}

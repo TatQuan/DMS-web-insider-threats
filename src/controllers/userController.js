@@ -78,5 +78,19 @@ const deleteUser = async (req, res) => {
 };
 
 // ========================== Unlock User =========================
+// ========================== Lock User ==========================
+const lockUser = async (req, res) => {
+  const userId = req.params.id;
+  const lockDurationMinutes = req.body.lockDurationMinutes;
+  try {
+    await userService.lockUserService(userId, lockDurationMinutes);
+    res
+      .status(200)
+      .json({ success: true, message: "User locked successfully!" });
+  } catch (error) {
+    console.log("Error in lockUser:", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
 
-module.exports = { viewUser, createUser, updateUser, deleteUser };
+module.exports = { viewUser, createUser, updateUser, deleteUser, lockUser };

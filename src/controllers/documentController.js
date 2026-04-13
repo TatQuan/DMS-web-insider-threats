@@ -81,6 +81,12 @@ const downloadDocument = async (req, res) => {
     const user = res.locals.user;
     const path = req.originalUrl;
 
+    const rawIp =
+      req.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    const ipInfo = ipHelper.formatIPv4(rawIp);
+
+    const browserInfo = req.headers["user-agent"] || "Unknown Browser";
+
     const { fullPath, originalName } =
       await documentService.downloadDocumentService(
         docId,

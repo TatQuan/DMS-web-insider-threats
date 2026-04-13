@@ -30,6 +30,11 @@ router.delete(
   userController.deleteUser,
 );
 
-
+router.lock(
+  "/lock/:id",
+  authMiddleware.verifyToken,
+  authMiddleware.isAdmin,
+  userController.lockUser,
+);
 
 module.exports = router;

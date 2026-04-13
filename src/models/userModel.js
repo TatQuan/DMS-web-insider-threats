@@ -112,4 +112,5 @@ module.exports = {
   selectAllUsersQuery,
   updateUserQuery,
   softDeleteUserQuery,
+  lockUserQuery,
 };
